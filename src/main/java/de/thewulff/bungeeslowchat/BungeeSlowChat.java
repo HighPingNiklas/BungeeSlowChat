@@ -4,6 +4,7 @@ import de.thewulff.bungeeslowchat.listeners.ChatListener;
 import de.thewulff.bungeeslowchat.listeners.LoginListener;
 import de.thewulff.bungeeslowchat.listeners.PlayerDisconnectListener;
 import de.thewulff.bungeeslowchat.utils.ConfigManager;
+import de.thewulff.bungeeslowchat.utils.Methods;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.plugin.Plugin;
@@ -14,6 +15,7 @@ import net.md_5.bungee.config.YamlConfiguration;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Member;
 
 public class BungeeSlowChat extends Plugin {
 
@@ -28,6 +30,7 @@ public class BungeeSlowChat extends Plugin {
         instane = this;
         registerListener();
         ConfigManager.setDefaultDatas();
+        Methods.checkPlayers();
         getLogger().info("enabled.");
     }
 
