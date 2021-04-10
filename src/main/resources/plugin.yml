@@ -1,0 +1,5 @@
+name: BungeeSlowChat
+author: High_Ping
+version: ${project.version}
+
+main: de.thewulff.bungeeslowchat.BungeeSlowChat
