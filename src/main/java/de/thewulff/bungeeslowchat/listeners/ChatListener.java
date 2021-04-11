@@ -15,22 +15,24 @@ public class ChatListener implements Listener {
         if (event.getSender() instanceof ProxiedPlayer) {
             ProxiedPlayer player = (ProxiedPlayer) event.getSender();
             if (Methods.slowChat) {
-                if (Methods.cooldownMap.containsKey(player)){
-                    if(System.currentTimeMillis() > Methods.cooldownMap.get(player)){
-                        Methods.cooldownMap.remove(player);
-                        event.setCancelled(false);
-                        Methods.cooldownMap.put(player, System.currentTimeMillis() + Long.valueOf(ConfigManager.getValue("cooldown"))*1000);
-                    } else {
-                        event.setCancelled(true);
-                        long seconds = (Methods.cooldownMap.get(player)-System.currentTimeMillis())/1000;
-                        if(seconds == 1){
-                            player.sendMessage(BungeeSlowChat.getInstance().getConfigMessages("waitOneSecond").replace("%seconds%", seconds + ""));
+                if(!player.hasPermission("bungeeslowchat.ignore")){
+                    if (Methods.cooldownMap.containsKey(player)){
+                        if(System.currentTimeMillis() > Methods.cooldownMap.get(player)){
+                            Methods.cooldownMap.remove(player);
+                            event.setCancelled(false);
+                            Methods.cooldownMap.put(player, System.currentTimeMillis() + Long.valueOf(ConfigManager.getValue("cooldown"))*1000);
                         } else {
-                            player.sendMessage(BungeeSlowChat.getInstance().getConfigMessages("waitXSeconds").replace("%seconds%", seconds + ""));
+                            event.setCancelled(true);
+                            long seconds = (Methods.cooldownMap.get(player)-System.currentTimeMillis())/1000;
+                            if(seconds == 1){
+                                player.sendMessage(BungeeSlowChat.getInstance().getConfigMessages("waitOneSecond").replace("%seconds%", seconds + ""));
+                            } else {
+                                player.sendMessage(BungeeSlowChat.getInstance().getConfigMessages("waitXSeconds").replace("%seconds%", seconds + ""));
+                            }
                         }
+                    } else {
+                        Methods.cooldownMap.put(player, System.currentTimeMillis() + Long.parseLong(ConfigManager.getValue("cooldown"))*1000);
                     }
-                } else {
-                    Methods.cooldownMap.put(player, System.currentTimeMillis() + Long.parseLong(ConfigManager.getValue("cooldown"))*1000);
                 }
             }
         }
