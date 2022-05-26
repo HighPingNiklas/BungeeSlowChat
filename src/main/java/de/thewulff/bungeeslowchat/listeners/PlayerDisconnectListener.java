@@ -12,10 +12,14 @@ public class PlayerDisconnectListener implements Listener {
 
     @EventHandler
     public void onPlayerDisconnect(PlayerDisconnectEvent event){
-        if(ProxyServer.getInstance().getPlayers().size()-1 < Integer.valueOf(ConfigManager.getValue("minPlayers"))){
+        System.out.println(ProxyServer.getInstance().getPlayers().size());
+        if(ProxyServer.getInstance().getPlayers().size() < Integer.valueOf(ConfigManager.getValue("minPlayers"))){
             if(Methods.slowChat){
                 Methods.slowChat = false;
-                ProxyServer.getInstance().broadcast(BungeeSlowChat.getInstance().getConfigMessages("slowChatDisabled").replace("%cooldown%", ConfigManager.getValue("cooldown")));
+                if(!BungeeSlowChat.getInstance().getConfigMessages("slowChatDisabled").equalsIgnoreCase("")
+                        && !BungeeSlowChat.getInstance().getConfigMessages("slowChatDisabled").equalsIgnoreCase(" ")
+                        && BungeeSlowChat.getInstance().getConfigMessages("slowChatDisabled") != null)
+                    ProxyServer.getInstance().broadcast(BungeeSlowChat.getInstance().getConfigMessages("slowChatDisabled").replace("%cooldown%", ConfigManager.getValue("cooldown")));
             }
         }
     }
